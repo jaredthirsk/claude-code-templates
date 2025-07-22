@@ -1,3 +1,10 @@
+# Fork note
+
+- Purpose of fork: add .NET 8+
+- Status: I was just curious what it would look like if I asked Claude Code to make it.  I'm not actively using it.
+
+# Original README
+
 [![npm version](https://img.shields.io/npm/v/claude-code-templates.svg)](https://www.npmjs.com/package/claude-code-templates)
 [![npm downloads](https://img.shields.io/npm/dt/claude-code-templates.svg)](https://www.npmjs.com/package/claude-code-templates)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
