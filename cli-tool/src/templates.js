@@ -112,6 +112,36 @@ const TEMPLATES_CONFIG = {
       { source: 'rust/.mcp.json', destination: '.mcp.json' }
     ]
   },
+  'dotnet': {
+    name: '.NET',
+    description: 'Optimized for .NET 8+ development with C#',
+    files: [
+      { source: 'dotnet/CLAUDE.md', destination: 'CLAUDE.md' },
+      { source: 'dotnet/.claude', destination: '.claude' },
+      { source: 'dotnet/.claude/settings.json', destination: '.claude/settings.json' },
+      { source: 'dotnet/.mcp.json', destination: '.mcp.json' }
+    ],
+    frameworks: {
+      'aspnet-webapi': {
+        name: 'ASP.NET Core Web API',
+        additionalFiles: [
+          { source: 'dotnet/examples/aspnet-webapi/.claude/commands', destination: '.claude/commands' }
+        ]
+      },
+      'blazor-server': {
+        name: 'Blazor Server',
+        additionalFiles: [
+          { source: 'dotnet/examples/blazor-server/.claude/commands', destination: '.claude/commands' }
+        ]
+      },
+      'blazor-wasm': {
+        name: 'Blazor WebAssembly',
+        additionalFiles: [
+          { source: 'dotnet/examples/blazor-wasm/.claude/commands', destination: '.claude/commands' }
+        ]
+      }
+    }
+  },
   'go': {
     name: 'Go',
     description: 'Optimized for Go development', 

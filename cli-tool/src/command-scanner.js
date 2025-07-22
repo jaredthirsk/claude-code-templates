@@ -139,7 +139,7 @@ function parseCommandMetadata(content, commandName) {
   }
   
   // Determine default checked state (core commands usually checked by default)
-  const coreCommands = ['test', 'lint', 'debug', 'refactor'];
+  const coreCommands = ['test', 'lint', 'debug', 'refactor', 'build', 'nuget'];
   metadata.defaultChecked = coreCommands.includes(commandName);
   
   return metadata;
@@ -173,7 +173,24 @@ function createShortDisplayName(commandName, title) {
     'django-model': 'Django Model',
     'flask-route': 'Flask Route',
     'git-workflow': 'Git Workflow',
-    'project-setup': 'Project Setup'
+    'project-setup': 'Project Setup',
+    // .NET specific commands
+    'build': 'Build',
+    'nuget': 'NuGet',
+    'ef-migration': 'EF Migration',
+    'publish': 'Publish',
+    'configuration': 'Config',
+    'logging': 'Logging',
+    'controller': 'Controller',
+    'service': 'Service',
+    'model': 'Model',
+    'auth': 'Auth',
+    'swagger': 'Swagger',
+    'http-service': 'HTTP Service',
+    'pwa': 'PWA',
+    'offline': 'Offline',
+    'signalr': 'SignalR',
+    'form': 'Form'
   };
   
   // Return predefined short name if available
@@ -221,7 +238,24 @@ function createShortDescription(description, commandName) {
     'django-model': 'Create Django model',
     'flask-route': 'Create Flask route',
     'git-workflow': 'Git workflow helper',
-    'project-setup': 'Setup project'
+    'project-setup': 'Setup project',
+    // .NET specific descriptions
+    'build': 'Build .NET project',
+    'nuget': 'Manage NuGet packages',
+    'ef-migration': 'EF Core migrations',
+    'publish': 'Publish for deployment',
+    'configuration': 'Manage app config',
+    'logging': 'Setup structured logging',
+    'controller': 'Create API controller',
+    'service': 'Create service class',
+    'model': 'Create data models',
+    'auth': 'Setup authentication',
+    'swagger': 'API documentation',
+    'http-service': 'HTTP client service',
+    'pwa': 'PWA features',
+    'offline': 'Offline support',
+    'signalr': 'Real-time features',
+    'form': 'Blazor forms'
   };
   
   // Return predefined short description if available

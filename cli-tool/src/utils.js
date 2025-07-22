@@ -111,6 +111,74 @@ async function detectProject(targetDir) {
     detectedLanguages.push('rust');
   }
   
+  // Check for .NET files
+  const csharpFiles = await findFilesByExtension(targetDir, ['.cs']);
+  const fsharpFiles = await findFilesByExtension(targetDir, ['.fs']);
+  const csprojFiles = await findFilesByExtension(targetDir, ['.csproj']);
+  const fsprojFiles = await findFilesByExtension(targetDir, ['.fsproj']);
+  const slnFiles = await findFilesByExtension(targetDir, ['.sln']);
+  
+  if (csharpFiles.length > 0 || fsharpFiles.length > 0 || csprojFiles.length > 0 || fsprojFiles.length > 0 || slnFiles.length > 0) {
+    detectedLanguages.push('dotnet');
+    
+    // Check for .NET frameworks
+    for (const csprojFile of csprojFiles) {
+      try {
+        const csprojContent = await fs.readFile(csprojFile, 'utf-8');
+        
+        // Check for ASP.NET Core Web API
+        if (csprojContent.includes('Microsoft.AspNetCore') && 
+           (csprojContent.includes('Microsoft.AspNetCore.OpenApi') || 
+            csprojContent.includes('Swashbuckle.AspNetCore'))) {
+          detectedFrameworks.push('aspnet-webapi');
+        }
+        
+        // Check for Blazor Server
+        if (csprojContent.includes('Microsoft.AspNetCore.Components.Server') ||
+            csprojContent.includes('>blazorserver<')) {
+          detectedFrameworks.push('blazor-server');
+        }
+        
+        // Check for Blazor WebAssembly
+        if (csprojContent.includes('Microsoft.AspNetCore.Components.WebAssembly') ||
+            csprojContent.includes('>blazorwasm<')) {
+          detectedFrameworks.push('blazor-wasm');
+        }
+      } catch (error) {
+        // Ignore parsing errors
+      }
+    }
+    
+    // Check for Blazor project structure
+    const blazorPagesPath = path.join(targetDir, 'Components', 'Pages');
+    const blazorComponentsPath = path.join(targetDir, 'Components');
+    const wwwrootPath = path.join(targetDir, 'wwwroot');
+    
+    if (await fs.pathExists(blazorPagesPath) || await fs.pathExists(blazorComponentsPath)) {
+      // Check for Blazor Server (has SignalR hub references)
+      const programFiles = await findFilesByPattern(targetDir, 'Program.cs');
+      for (const programFile of programFiles) {
+        try {
+          const programContent = await fs.readFile(programFile, 'utf-8');
+          if (programContent.includes('MapBlazorHub') || programContent.includes('AddServerSideBlazor')) {
+            detectedFrameworks.push('blazor-server');
+          }
+          if (programContent.includes('WebAssembly') || programContent.includes('blazorwasm')) {
+            detectedFrameworks.push('blazor-wasm');
+          }
+        } catch (error) {
+          // Ignore parsing errors
+        }
+      }
+    }
+    
+    // Check for ASP.NET Core structure
+    const controllersPath = path.join(targetDir, 'Controllers');
+    if (await fs.pathExists(controllersPath)) {
+      detectedFrameworks.push('aspnet-webapi');
+    }
+  }
+  
   // Check for Go files
   const goFiles = await findFilesByExtension(targetDir, ['.go']);
   const goModPath = path.join(targetDir, 'go.mod');
@@ -198,7 +266,9 @@ async function getProjectSummary(targetDir) {
     'package.json', 'tsconfig.json', 'webpack.config.js', 'vite.config.js',
     'requirements.txt', 'setup.py', 'pyproject.toml', 'Pipfile',
     'Gemfile', 'Gemfile.lock', 'Rakefile', 'config.ru',
-    'Cargo.toml', 'go.mod', '.gitignore', 'README.md'
+    'Cargo.toml', 'go.mod',
+    '*.sln', '*.csproj', '*.fsproj', 'global.json', 'nuget.config', 'Directory.Build.props',
+    '.gitignore', 'README.md'
   ];
   
   for (const configFile of configFiles) {

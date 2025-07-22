@@ -1,0 +1,63 @@
+{
+  "language": "dotnet",
+  "framework": "general",
+  "projectType": "dotnet",
+  "buildTool": "dotnet",
+  "packageManager": "nuget",
+  "testFramework": "xunit",
+  "targetFramework": "net8.0",
+  "features": {
+    "authentication": false,
+    "database": false,
+    "swagger": false,
+    "logging": true,
+    "healthChecks": false,
+    "caching": false
+  },
+  "conventions": {
+    "namingStyle": "PascalCase",
+    "fileNaming": "PascalCase",
+    "folderStructure": "clean-architecture",
+    "asyncSuffix": true,
+    "interfacePrefix": "I"
+  },
+  "codeGeneration": {
+    "includeDocumentation": true,
+    "includeExamples": true,
+    "generateTests": true,
+    "includeValidation": true,
+    "includeLogging": true,
+    "useCancellationTokens": true
+  },
+  "dependencies": {
+    "core": [
+      "Microsoft.Extensions.Hosting",
+      "Microsoft.Extensions.DependencyInjection",
+      "Microsoft.Extensions.Configuration",
+      "Microsoft.Extensions.Logging",
+      "System.Text.Json"
+    ],
+    "testing": [
+      "Microsoft.NET.Test.Sdk",
+      "xunit",
+      "xunit.runner.visualstudio",
+      "FluentAssertions",
+      "Moq"
+    ],
+    "optional": [
+      "Serilog.AspNetCore",
+      "AutoMapper",
+      "FluentValidation",
+      "MediatR"
+    ]
+  },
+  "commands": {
+    "build": "dotnet build",
+    "test": "dotnet test",
+    "run": "dotnet run",
+    "watch": "dotnet watch run",
+    "publish": "dotnet publish",
+    "restore": "dotnet restore",
+    "clean": "dotnet clean"
+  }
+}
